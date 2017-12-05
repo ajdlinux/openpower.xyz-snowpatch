@@ -28,7 +28,8 @@ RUN apt-get update && apt-get install -yy \
 	bc \
 	build-essential \
 	git \
-	software-properties-common
+	software-properties-common \
+	libssl-dev
 
 RUN apt-add-repository -y multiverse && apt-get update && apt-get install -yy \
 	dwarves \
