@@ -9,6 +9,7 @@
 # Default variables
 WORKSPACE="${WORKSPACE:-${HOME}/${RANDOM}${RANDOM}}"
 http_proxy="${http_proxy:-}"
+DEFCONFIG_TO_USE=${DEFCONFIG_TO_USE:-pseries_le_defconfig}
 
 # Timestamp for job
 echo "Build started, $(date)"
@@ -76,16 +77,11 @@ make clean || exit 1
 make mrproper || exit 1
 
 # Build kernel with debug
-make pseries_le_defconfig || exit 1
+make ${DEFCONFIG_TO_USE} || exit 1
 echo "CONFIG_DEBUG_INFO=y" >> .config
 make olddefconfig || exit 1
-make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>&1 | gzip > sparse.log.gz
+make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>&1 | gzip > sparse.log.gz || exit 1
 pahole vmlinux 2>&1 | gzip > structs.dump.gz
-
-# Build kernel
-make pseries_le_defconfig || exit 1
-make -j$(nproc) || exit 1
-
 EOF_SCRIPT
 
 chmod a+x "${WORKSPACE}/build.sh"
