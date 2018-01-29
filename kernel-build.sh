@@ -63,6 +63,7 @@ cat > "${WORKSPACE}/build.sh" << EOF_SCRIPT
 #!/bin/bash
 
 set -x
+set -o pipefail
 
 cd "${WORKSPACE}"
 
