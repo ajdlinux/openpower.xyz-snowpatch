@@ -81,7 +81,7 @@ make mrproper || exit 1
 make ${DEFCONFIG_TO_USE} || exit 1
 echo "CONFIG_DEBUG_INFO=y" >> .config
 make olddefconfig || exit 1
-make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>&1 > build.log || exit 1
+make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build.log >>build.log || exit 1
 cat build.log | gzip > sparse.log.gz || exit 1
 pahole vmlinux 2>&1 | gzip > structs.dump.gz
 EOF_SCRIPT
