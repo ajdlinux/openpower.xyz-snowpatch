@@ -29,10 +29,7 @@ RUN apt-get update && apt-get install -yy \
 	build-essential \
 	git \
 	software-properties-common \
-	libssl-dev \
-	binutils-powerpc64-linux-gnu \
-	libc6-dev-ppc64-powerpc-cross \
-	libc6-ppc64-powerpc-cross
+	libssl-dev
 
 RUN grep -q ${GROUPS} /etc/group || groupadd -g ${GROUPS} ${USER}
 RUN grep -q ${UID} /etc/passwd || useradd -d ${HOME} -m -u ${UID} -g ${GROUPS} ${USER}
