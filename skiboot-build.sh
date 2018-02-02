@@ -29,7 +29,10 @@ RUN apt-get update && apt-get install -yy \
 	build-essential \
 	git \
 	software-properties-common \
-	libssl-dev
+	libssl-dev \
+	binutils-powerpc64-linux-gnu \
+	libc6-dev-ppc64-powerpc-cross \
+	libc6-ppc64-powerpc-cross
 
 RUN grep -q ${GROUPS} /etc/group || groupadd -g ${GROUPS} ${USER}
 RUN grep -q ${UID} /etc/passwd || useradd -d ${HOME} -m -u ${UID} -g ${GROUPS} ${USER}
@@ -62,17 +65,17 @@ set -o pipefail
 
 cd "${WORKSPACE}"
 
-# Go into the skiboot directory (the script will put us in a build subdir)
+# Go into the skibinutils-powerpc64-linux-gnuboot directory (the script will put us in a build subdir)
 cd skiboot
 
 # Record the version in the logs
 gcc --version || exit 1
 
 # Build prep
-make clean || exit 1
+CROSS= make clean || exit 1
 
 # Build skiboot
-make || exit 1
+CROSS= make || exit 1
 EOF_SCRIPT
 
 chmod a+x "${WORKSPACE}/build.sh"
