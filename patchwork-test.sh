@@ -17,7 +17,7 @@ mkdir -p "${WORKSPACE}"
 sed -i "s/UID=1000/UID=$UID/g" patchwork/tools/docker/Dockerfile
 cd patchwork
 docker-compose build
-docker-compose run --rm web --tox
+docker-compose run --rm web --quick-tox
 docker-compose rm -fs
 
 # Timestamp for build
