@@ -20,6 +20,9 @@ docker-compose build | tee ../patchwork-build.log
 docker-compose run web --quick-tox | tee ../patchwork-test.log
 docker-compose down -v
 
+# FIXME: This is a very dirty hack.
+patchwork_db_hack
+
 # Timestamp for build
 echo "Build completed, $(date)"
 
