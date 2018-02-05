@@ -16,10 +16,18 @@ mkdir -p "${WORKSPACE}"
 
 sed -i "s/UID=1000/UID=$UID/g" patchwork/tools/docker/Dockerfile
 cd patchwork
-docker-compose build
-docker-compose run --rm web --quick-tox
+docker-compose build | tee ../patchwork-build.log
+docker-compose run --rm web --quick-tox | tee ../patchwork-test.log
 docker-compose down
 
 # Timestamp for build
 echo "Build completed, $(date)"
 
+if grep "ERROR" ../patchwork-test.log
+then
+	exit 1
+else
+	exit 0
+fi
+
+# FIXME: detect errors in docker-compose build
