@@ -17,8 +17,8 @@ mkdir -p "${WORKSPACE}"
 sed -i "s/UID=1000/UID=$UID/g" patchwork/tools/docker/Dockerfile
 cd patchwork
 docker-compose build | tee ../patchwork-build.log
-docker-compose run --rm web --quick-tox | tee ../patchwork-test.log
-docker-compose down
+docker-compose run web --quick-tox | tee ../patchwork-test.log
+docker-compose down -v
 
 # Timestamp for build
 echo "Build completed, $(date)"
