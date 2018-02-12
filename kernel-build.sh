@@ -31,7 +31,8 @@ RUN apt-get update && apt-get install -yy \
 	git \
 	software-properties-common \
 	libssl-dev \
-	bison
+	bison \
+	flex
 
 RUN apt-add-repository -y multiverse && apt-get update && apt-get install -yy \
 	dwarves \
