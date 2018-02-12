@@ -30,7 +30,8 @@ RUN apt-get update && apt-get install -yy \
 	build-essential \
 	git \
 	software-properties-common \
-	libssl-dev
+	libssl-dev \
+	bison
 
 RUN apt-add-repository -y multiverse && apt-get update && apt-get install -yy \
 	dwarves \
