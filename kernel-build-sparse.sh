@@ -95,7 +95,7 @@ make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build_old.log >>build_old.log ||
 git checkout ${GIT_REF_PATCHED} || exit 1
 
 # Build again, should be minimal
-make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build_new.log >>build_new.log || exit 1
+make -j$(nproc) -s C=1 CF=-D__CHECK_ENDIAN__ 2>>build_new.log >>build_new.log || exit 1
 
 EOF_SCRIPT
 
