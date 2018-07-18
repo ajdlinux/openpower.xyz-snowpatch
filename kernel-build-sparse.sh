@@ -35,7 +35,7 @@ RUN apt-get update && apt-get install -yy \
 	libssl-dev \
 	bison \
 	flex \
-	python3
+	u-boot-tools
 
 RUN apt-add-repository -y multiverse && apt-get update && apt-get install -yy \
 	dwarves \
