@@ -74,10 +74,10 @@ gcc --version || exit 1
 CROSS= make clean || exit 1
 
 # Build skiboot
-CROSS= make || exit 1
+CROSS= make -j >> build.log || exit 1
 
 # Test skiboot
-CROSS= make check || exit 1
+CROSS= make check >> check.log || exit 1
 EOF_SCRIPT
 
 chmod a+x "${WORKSPACE}/build.sh"
