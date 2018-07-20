@@ -84,6 +84,7 @@ make mrproper || exit 1
 
 # Start with the base branch
 git checkout ${GIT_REF_BASE} || exit 1
+git pull
 
 # Build kernel with debug
 make ${DEFCONFIG_TO_USE} || exit 1
