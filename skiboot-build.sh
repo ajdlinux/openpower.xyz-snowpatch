@@ -18,12 +18,13 @@ if [[ -n "${http_proxy}" ]]; then
 PROXY="RUN echo \"Acquire::http::Proxy \\"\"${http_proxy}/\\"\";\" > /etc/apt/apt.conf.d/000apt-cacher-ng-proxy"
 fi
 
+cp -r /opt/skiboot-deps/* skiboot/
 Dockerfile=$(cat << EOF
 FROM ppc64le/ubuntu:16.04
 
 ${PROXY}
 
-ENV DEBIAN_FRONTEND noninteractive 
+ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -yy \
 	bc \
 	build-essential \
@@ -31,7 +32,8 @@ RUN apt-get update && apt-get install -yy \
 	software-properties-common \
 	libssl-dev \
 	valgrind \
-	device-tree-compiler
+	device-tree-compiler \
+	expect
 
 RUN grep -q ${GROUPS} /etc/group || groupadd -g ${GROUPS} ${USER}
 RUN grep -q ${UID} /etc/passwd || useradd -d ${HOME} -m -u ${UID} -g ${GROUPS} ${USER}
@@ -64,7 +66,7 @@ set -o pipefail
 
 cd "${WORKSPACE}"
 
-# Go into the skibinutils-powerpc64-linux-gnuboot directory (the script will put us in a build subdir)
+# Go into the skiboot directory (the script will put us in a build subdir)
 cd skiboot
 
 # Record the version in the logs
@@ -77,7 +79,7 @@ CROSS= make clean || exit 1
 CROSS= make -j >> build.log || exit 1
 
 # Test skiboot
-CROSS= make check >> check.log || exit 1
+CROSS= QEMU_BIN=./qemu-system-ppc64 make check >> check.log || exit 1
 EOF_SCRIPT
 
 chmod a+x "${WORKSPACE}/build.sh"
