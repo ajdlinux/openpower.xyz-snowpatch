@@ -83,17 +83,17 @@ make clean || exit 1
 make mrproper || exit 1
 
 # Start with the base branch
-git checkout ${GIT_REF_BASE} || exit 1
+git checkout "${GIT_REF_BASE}" || exit 1
 git pull
 
 # Build kernel with debug
-make ${DEFCONFIG_TO_USE} || exit 1
+make "${DEFCONFIG_TO_USE}" || exit 1
 echo "CONFIG_DEBUG_INFO=y" >> .config
 make olddefconfig || exit 1
 make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build_old.log >>build_old.log || exit 1
 
 # Switch to the patched branch
-git checkout ${GIT_REF_PATCHED} || exit 1
+git checkout "${GIT_REF_PATCHED}" || exit 1
 
 # Build again, should be minimal
 make olddefconfig || exit 1
