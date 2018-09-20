@@ -22,7 +22,7 @@ PROXY="RUN echo \"Acquire::http::Proxy \\"\"${http_proxy}/\\"\";\" > /etc/apt/ap
 fi
 
 Dockerfile=$(cat << EOF
-FROM ppc64le/ubuntu:16.04
+FROM ubuntu:18.04
 
 ${PROXY}
 
