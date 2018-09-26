@@ -95,12 +95,12 @@ make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build_old.log >>build_old.log ||
 # Switch to the patched branch
 git checkout "${GIT_REF_PATCHED}" || exit 1
 
-# XXX temporary for testing
+# Clean everything up
 make clean || exit 1
 make mrproper || exit 1
 make "${DEFCONFIG_TO_USE}" || exit 1
 
-# Build again, should be minimal
+# Build again with the changes applied
 make olddefconfig || exit 1
 make -j$(nproc) -s C=1 CF=-D__CHECK_ENDIAN__ 2>>build_new.log >>build_new.log || exit 1
 
