@@ -76,10 +76,10 @@ gcc --version || exit 1
 CROSS= make clean || exit 1
 
 # Build skiboot
-CROSS= make -j >> build.log || exit 1
+CROSS= make -j >>build.log 2>>build.log || exit 1
 
 # Test skiboot
-CROSS= QEMU_BIN=./qemu-system-ppc64 make check >> check.log || exit 1
+CROSS= QEMU_BIN=./qemu-system-ppc64 make check >>check.log 2>>check.log || exit 1
 EOF_SCRIPT
 
 chmod a+x "${WORKSPACE}/build.sh"
