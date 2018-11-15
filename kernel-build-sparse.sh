@@ -35,7 +35,8 @@ RUN apt-get update && apt-get install -yy \
 	libssl-dev \
 	bison \
 	flex \
-	u-boot-tools
+	u-boot-tools \
+	ccache
 
 RUN apt-add-repository -y multiverse && apt-get update && apt-get install -yy \
 	dwarves \
@@ -75,6 +76,10 @@ cd "${WORKSPACE}"
 # Go into the linux directory (the script will put us in a build subdir)
 cd linux
 
+# XXX just for testing
+ls -l /ccache
+echo $CCACHE_DIR
+
 # Record the version in the logs
 gcc --version || exit 1
 
@@ -90,7 +95,7 @@ git pull
 make "${DEFCONFIG_TO_USE}" || exit 1
 #echo "CONFIG_DEBUG_INFO=y" >> .config
 make olddefconfig || exit 1
-make -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build_old.log >>build_old.log || exit 1
+make CC="ccache gcc" -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build_old.log >>build_old.log || exit 1
 
 # Switch to the patched branch
 git checkout "${GIT_REF_PATCHED}" || exit 1
@@ -102,15 +107,16 @@ make "${DEFCONFIG_TO_USE}" || exit 1
 
 # Build again with the changes applied
 make olddefconfig || exit 1
-make -j$(nproc) -s C=1 CF=-D__CHECK_ENDIAN__ 2>>build_new.log >>build_new.log || exit 1
+make CC="ccache gcc" -j$(nproc) -s C=1 CF=-D__CHECK_ENDIAN__ 2>>build_new.log >>build_new.log || exit 1
 
 EOF_SCRIPT
 
 chmod a+x "${WORKSPACE}/build.sh"
 
 # Run the docker container, execute the build script we just built
-docker run --cap-add=sys_admin --net=host --rm=true -e WORKSPACE="${WORKSPACE}" --user="${USER}" \
-  -w "${HOME}" -v "${HOME}":"${HOME}" -t linux-build/ubuntu "${WORKSPACE}/build.sh" || exit 1
+docker run --cap-add=sys_admin --net=host --rm=true -e WORKSPACE="${WORKSPACE}" -e CCACHE_DIR=/ccache \
+    --user="${USER}" -w "${HOME}" -v "${HOME}":"${HOME}" -v /ccache:/ccache -t linux-build/ubuntu \
+    "${WORKSPACE}/build.sh" || exit 1
 
 # Timestamp for build
 echo "Build completed, $(date)"
