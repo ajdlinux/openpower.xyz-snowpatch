@@ -95,7 +95,7 @@ git pull
 make "${DEFCONFIG_TO_USE}" || exit 1
 #echo "CONFIG_DEBUG_INFO=y" >> .config
 make olddefconfig || exit 1
-make CC="ccache gcc" -j$(nproc) -s C=2 CF=-D__CHECK_ENDIAN__ 2>>build_old.log >>build_old.log || exit 1
+make CC="ccache gcc" -j$(nproc) -s C=2 CF="-D__CHECK_ENDIAN__ >> sparse_old.log 2>&1" 2>>build_old.log >>build_old.log || exit 1
 
 # Switch to the patched branch
 git checkout "${GIT_REF_PATCHED}" || exit 1
@@ -107,7 +107,7 @@ make "${DEFCONFIG_TO_USE}" || exit 1
 
 # Build again with the changes applied
 make olddefconfig || exit 1
-make CC="ccache gcc" -j$(nproc) -s C=1 CF=-D__CHECK_ENDIAN__ 2>>build_new.log >>build_new.log || exit 1
+make CC="ccache gcc" -j$(nproc) -s C=1 CF="-D__CHECK_ENDIAN__ >> sparse_new.log 2>&1" 2>>build_new.log >>build_new.log || exit 1
 
 EOF_SCRIPT
 
