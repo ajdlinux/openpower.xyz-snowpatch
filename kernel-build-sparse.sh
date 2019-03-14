@@ -44,7 +44,11 @@ RUN apt-get update && apt-get install -yy \
 
 RUN apt-add-repository -y multiverse && apt-get update && apt-get install -yy \
 	dwarves \
-	sparse
+	&& apt-get build-dep -yy sparse
+
+# Install a new sparse from upstream
+RUN wget -O /tmp/sparse-latest.tar.gz https://mirrors.edge.kernel.org/pub/software/devel/sparse/dist/sparse-latest.tar.gz && \
+	cd /tmp && tar xf sparse-latest.tar.gz && cd sparse* && make -j4 install
 
 RUN grep -q ${GROUPS} /etc/group || groupadd -g ${GROUPS} ${USER}
 RUN grep -q ${UID} /etc/passwd || useradd -d ${HOME} -m -u ${UID} -g ${GROUPS} ${USER}
