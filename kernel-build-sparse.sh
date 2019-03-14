@@ -18,13 +18,17 @@ echo "Build started, $(date)"
 
 # Configure docker build
 if [[ -n "${http_proxy}" ]]; then
-PROXY="RUN echo \"Acquire::http::Proxy \\"\"${http_proxy}/\\"\";\" > /etc/apt/apt.conf.d/000apt-cacher-ng-proxy"
+	PROXY="RUN echo \"Acquire::http::Proxy \\"\"${http_proxy}/\\"\";\" > /etc/apt/apt.conf.d/000apt-cacher-ng-proxy"
+	PROXY2="ENV http_proxy ${http_proxy}"
+	PROXY3="ENV https_proxy ${https_proxy}"
 fi
 
 Dockerfile=$(cat << EOF
 FROM ubuntu:18.04
 
 ${PROXY}
+${PROXY2}
+${PROXY3}
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -yy \
