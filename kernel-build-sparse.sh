@@ -40,7 +40,8 @@ RUN apt-get update && apt-get install -yy \
 	bison \
 	flex \
 	u-boot-tools \
-	ccache
+	ccache \
+	wget
 
 RUN apt-add-repository -y multiverse && apt-get update && apt-get install -yy \
 	dwarves \
