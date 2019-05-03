@@ -20,7 +20,7 @@ cd patchwork
 # FIXME: This is a very dirty hack.
 sudo /bin/rm -rf /var/lib/jenkins-slave/workspace/snowpatch/snowpatch-patchwork/patchwork/tools/docker/db/postdata/
 
-echo ENV=$ENV > .env
+echo UID=$UID > .env
 docker-compose -f docker-compose-pg.yml build | tee ../patchwork-build.log
 docker-compose -f docker-compose-pg.yml run web --quick-tox | tee ../patchwork-test.log
 docker-compose down -v
