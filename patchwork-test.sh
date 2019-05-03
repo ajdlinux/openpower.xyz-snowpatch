@@ -18,7 +18,7 @@ sed -i "s/UID=1000/UID=$UID/g" patchwork/tools/docker/Dockerfile
 cd patchwork
 
 # FIXME: This is a very dirty hack.
-sudo /bin/rm -rf /var/lib/jenkins-slave/workspace/snowpatch/snowpatch-patchwork/patchwork/tools/docker/db/data/
+sudo /bin/rm -rf /var/lib/jenkins-slave/workspace/snowpatch/snowpatch-patchwork/patchwork/tools/docker/db/postdata/
 
 echo ENV=$ENV > .env
 docker-compose -f docker-compose-pg.yml build | tee ../patchwork-build.log
@@ -27,8 +27,8 @@ docker-compose down -v
 
 # FIXME: This is a very dirty hack.
 # Sudoers entry:
-#   jenkins-slave ALL=(root) NOPASSWD: /bin/rm -rf /var/lib/jenkins-slave/workspace/snowpatch/snowpatch-patchwork/patchwork/tools/docker/db/data/
-sudo /bin/rm -rf /var/lib/jenkins-slave/workspace/snowpatch/snowpatch-patchwork/patchwork/tools/docker/db/data/
+#   jenkins-slave ALL=(root) NOPASSWD: /bin/rm -rf /var/lib/jenkins-slave/workspace/snowpatch/snowpatch-patchwork/patchwork/tools/docker/db/postdata/
+sudo /bin/rm -rf /var/lib/jenkins-slave/workspace/snowpatch/snowpatch-patchwork/patchwork/tools/docker/db/postdata/
 
 # Timestamp for build
 echo "Build completed, $(date)"
