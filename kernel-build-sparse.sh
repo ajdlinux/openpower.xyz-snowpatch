@@ -30,6 +30,8 @@ ${PROXY}
 ${PROXY2}
 ${PROXY3}
 
+RUN sed -Ei 's/^# deb-src /deb-src /' /etc/apt/sources.list
+
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -yy \
 	bc \
