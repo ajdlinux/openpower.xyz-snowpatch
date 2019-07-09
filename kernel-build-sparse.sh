@@ -100,7 +100,7 @@ make mrproper || exit 1
 
 # Start with the base branch
 git checkout "${GIT_REF_BASE}" || exit 1
-git pull
+git reset --hard "origin/${GIT_REF_BASE}"
 
 # Build kernel with debug
 make "${DEFCONFIG_TO_USE}" || exit 1
@@ -110,6 +110,7 @@ make CC="ccache gcc" -j$(nproc) -s C=2 CF="-D__CHECK_ENDIAN__ >> sparse_old.log 
 
 # Switch to the patched branch
 git checkout "${GIT_REF_PATCHED}" || exit 1
+git reset --hard "origin/${GIT_REF_PATCHED}"
 
 # Clean everything up
 make clean || exit 1
