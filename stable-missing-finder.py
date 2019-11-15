@@ -67,3 +67,6 @@ Documentation/process/stable-kernel-rules.rst for more info.
 
 Please consider tagging this patch for stable!""")
     sys.exit(2)
+else:
+    print("\nPatch fixes a commit that hasn't been released yet")
+    sys.exit(0)
