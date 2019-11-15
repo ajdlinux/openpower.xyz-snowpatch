@@ -54,5 +54,16 @@ for fix in fixes_tags:
     stable_needed = True
 
 if stable_needed:
-    print("\nThis patch may need to be sent to stable!")
+    print("""
+This patch has a Fixes: tag for a patch that has already been included in a
+kernel release. If it's an important bug fix, you may need to add:
+
+    Cc: stable@vger.kernel.org
+
+to the commit message to mark it for stable backporting.
+
+Not all fixes are suitable for stable - see the rules in
+Documentation/process/stable-kernel-rules.rst for more info.
+
+Please consider tagging this patch for stable!""")
     sys.exit(2)
