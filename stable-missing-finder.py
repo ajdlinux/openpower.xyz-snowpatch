@@ -43,15 +43,16 @@ print()
 repo = git.Repo(git_repo_loc)
 
 # For each fix, figure out which tags contain it
-fixes_tags = [(f, [t for t in repo.git.tag("--contains", fix).split("\n")
+fixes_tags = [(f, [t for t in repo.git.tag("--contains", f).split("\n")
                    if re.match("^v[0-9].[0-9]+", t) and 'rc' not in t])
               for f in fixes]
 
 # If there's a non-rc tag, flag this patch as needing backporting
 stable_needed = False
 for fix in fixes_tags:
-    print(f"Fixed patch {fix[0]} is in: {', '.join(fix[1])}")
-    stable_needed = True
+    if fix[1]:
+        print(f"Fixed patch {fix[0]} is in: {', '.join(fix[1])}")
+        stable_needed = True
 
 if stable_needed:
     print("""
