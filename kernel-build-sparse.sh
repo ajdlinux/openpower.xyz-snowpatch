@@ -87,6 +87,8 @@ cd "${WORKSPACE}"
 # Go into the linux directory (the script will put us in a build subdir)
 cd linux
 
+sparse --version > sparse_version.txt
+
 # XXX just for testing
 ls -l /ccache
 echo $CCACHE_DIR
