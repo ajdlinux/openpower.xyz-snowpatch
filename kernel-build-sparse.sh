@@ -128,8 +128,9 @@ chmod a+x "${WORKSPACE}/build.sh"
 # Run the docker container, execute the build script we just built
 docker run --cap-add=sys_admin --net=host --rm=true -e WORKSPACE="${WORKSPACE}" -e CCACHE_DIR=/ccache \
     --user="${USER}" -w "${HOME}" -v "${HOME}":"${HOME}" -v /ccache:/ccache -t linux-build/ubuntu \
-    "${WORKSPACE}/build.sh" || exit 1
+    "${WORKSPACE}/build.sh"
+result=$?
 
 # Timestamp for build
 echo "Build completed, $(date)"
-
+exit $result
