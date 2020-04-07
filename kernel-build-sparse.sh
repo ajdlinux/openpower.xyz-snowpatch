@@ -94,21 +94,20 @@ ls -l /ccache
 echo $CCACHE_DIR
 
 # Record the version in the logs
-gcc --version || exit 1
+gcc --version || exit 2
 
 # Build kernel prep
-make clean || exit 1
-make mrproper || exit 1
+make clean || exit 2
+make mrproper || exit 2
 
-# Start with the base branch
-git checkout "${GIT_REF_BASE}" || exit 1
-git reset --hard "origin/${GIT_REF_BASE}"
+git checkout "${GIT_REF_BASE}" || exit 2
+git reset --hard "origin/${GIT_REF_BASE}" || exit 2
 
 # Build kernel with debug
-make "${DEFCONFIG_TO_USE}" || exit 1
+make "${DEFCONFIG_TO_USE}" || exit 2
 #echo "CONFIG_DEBUG_INFO=y" >> .config
-make olddefconfig || exit 1
-make CC="ccache gcc" -j$(nproc) -s C=2 CF="-D__CHECK_ENDIAN__ >> sparse_old.log 2>&1" 2>>build_old.log >>build_old.log || exit 1
+make olddefconfig || exit 2
+make CC="ccache gcc" -j$(nproc) -s C=2 CF="-D__CHECK_ENDIAN__ >> sparse_old.log 2>&1" 2>>build_old.log >>build_old.log || exit 2
 
 # Switch to the patched branch
 git checkout "${GIT_REF_PATCHED}" || exit 1
