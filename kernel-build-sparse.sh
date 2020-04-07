@@ -101,7 +101,6 @@ make clean || exit 2
 make mrproper || exit 2
 
 git checkout "${GIT_REF_BASE}" || exit 2
-git reset --hard "origin/${GIT_REF_BASE}" || exit 2
 
 # Build kernel with debug
 make "${DEFCONFIG_TO_USE}" || exit 2
