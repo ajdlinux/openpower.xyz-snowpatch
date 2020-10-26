@@ -24,7 +24,7 @@ if [[ -n "${http_proxy}" ]]; then
 fi
 
 Dockerfile=$(cat << EOF
-FROM ubuntu:18.04
+FROM ubuntu:20.10
 
 ${PROXY}
 ${PROXY2}

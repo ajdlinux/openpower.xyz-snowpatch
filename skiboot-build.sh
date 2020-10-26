@@ -20,7 +20,7 @@ fi
 
 cp -r /opt/skiboot-deps/* skiboot/
 Dockerfile=$(cat << EOF
-FROM ubuntu:18.04
+FROM ubuntu:20.10
 
 ${PROXY}
 
